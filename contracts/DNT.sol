@@ -11,7 +11,7 @@ contract DNT is Ownable, IDNT {
     mapping (address => mapping (address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
-    uint256 private _maxSupply = 7000000000 * (10 ** 18);
+    uint256 private _maxSupply = 0;
 
     string private _name="DNT Token";
     string private _symbol="DNT";
