@@ -62,6 +62,7 @@ interface IUSDCShare {
     function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
     
     function burn(address account, uint256 amount) external;
+    function mint(address account, uint256 amount) external;
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
      * another (`to`).
