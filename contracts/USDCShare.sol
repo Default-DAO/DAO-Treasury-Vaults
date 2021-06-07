@@ -203,7 +203,7 @@ contract USDCShare is Ownable, IUSDCShare {
      *
      * - `to` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) public onlyOwner {
+    function mint(address account, uint256 amount) external override  onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
         require(_maxSupply > _totalSupply, "Minting is Finished.");
 
