@@ -28,7 +28,8 @@ contract USDCVault is Ownable, ReentrancyGuard {
     event USDCShareMinted(address owner, uint256 amountMinted);
     event USDCShareBurned(address owner, uint256 amountBurned);
     event changedVaultFee(uint256 newFee);
-    event chargedxpense(uint256 amount);
+    event borrwedUSDC(uint256 amount);
+    event repaidUSDC(uint256 amount);
     constructor(IDNT _tokenDNT, IUSDCShare _tokenUSDCShare ) {
         tokenDNT = _tokenDNT;
         tokenUSDCShare = _tokenUSDCShare;
@@ -65,11 +66,16 @@ contract USDCVault is Ownable, ReentrancyGuard {
         vaultFee = new_fee;
         emit changedVaultFee(new_fee);
     }
-    function charge_expense(uint256 amount) public onlyOwner {
+    function borrow_usdc(uint256 amount) public onlyOwner {
         uint256 usdcBalance = tokenUSDC.balanceOf(address(this));
         require(usdcBalance > amount, "Withdraw amount exceed");
         tokenUSDC.transfer(msg.sender, amount);
-        emit chargedxpense(amount);
+        emit borrwedUSDC(amount);
     }
+    function repay_usdc(uint256 amount) public onlyOwner {
+        tokenUSDC.transferFrom(msg.sender, address(this), amount);
+        emit repaidUSDC(amount);
+    }
+  
   
 }
