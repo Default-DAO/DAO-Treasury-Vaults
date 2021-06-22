@@ -74,7 +74,7 @@ contract DNTVault is Ownable, ReentrancyGuard {
 
     }
     function borrow_dnt(uint256 amount) public onlyOwner {
-        tokenDNT.transfer(, amount);()
+        tokenDNT.transfer(daoContractAddress, amount);
     }
     function repay_dnt(uint256 amount) public onlyOwner{
         tokenDNT.transferFrom(msg.sender, address(this), amount);
