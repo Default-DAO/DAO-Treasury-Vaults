@@ -2,19 +2,19 @@
 
 pragma solidity ^0.8.0;
 
-import "./interfaces/IDNT.sol";
+import "./interfaces/IDNTShare.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract DNT is Ownable, IDNT {
+contract DNTShare is Ownable, IDNTShare {
     mapping (address => uint256) private _balances;
 
     mapping (address => mapping (address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
-    uint256 private _maxSupply = 0;
+    uint256 private _maxSupply = 1000000;
 
-    string private _name="DNT Token";
-    string private _symbol="DNT";
+    string private _name="DNT Share Token";
+    string private _symbol="DNTShare";
 
     /**
      * @dev Sets the values for {name} and {symbol}.
@@ -203,7 +203,7 @@ contract DNT is Ownable, IDNT {
      *
      * - `to` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) external override onlyOwner {
+    function mint(address account, uint256 amount) external override  onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
         require(_maxSupply > _totalSupply, "Minting is Finished.");
 
