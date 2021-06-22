@@ -18,11 +18,15 @@ contract USDCVault is Ownable, ReentrancyGuard {
     /* address of USDC*/
     address constant public USDC = address(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48);
 
+
     /* vault fee */
     uint256  vaultFee = 10;
 
     /* deposited usdc amount of users */
     mapping (address => uint256) private balances; 
+
+    /* address array of usdc share owners */
+    address[] usdcShareOwners;
 
     /* events */
     event USDCShareMinted(address owner, uint256 amountMinted);
@@ -34,6 +38,7 @@ contract USDCVault is Ownable, ReentrancyGuard {
         tokenDNT = _tokenDNT;
         tokenUSDCShare = _tokenUSDCShare;
         tokenUSDC = IERC20(USDC);
+       
     }
 
     function deposit_usdc(uint256 amount) public {
@@ -46,6 +51,7 @@ contract USDCVault is Ownable, ReentrancyGuard {
         balances[msg.sender] += amount;
       
         tokenUSDCShare.mint(msg.sender, mintAmount);  
+        addUSDCSharOwner(msg.sender);
         emit USDCShareMinted(msg.sender, mintAmount);
     }
     function withdraw_usdc(uint256 amount) public {
@@ -76,6 +82,17 @@ contract USDCVault is Ownable, ReentrancyGuard {
         tokenUSDC.transferFrom(msg.sender, address(this), amount);
         emit repaidUSDC(amount);
     }
-  
-  
+    function addUSDCSharOwner(address addr) public {
+        for (uint256 i = 0; i < usdcShareOwners.length;  i++) {
+            if (usdcShareOwners[i] == addr) {
+                return;
+            }
+        }
+        usdcShareOwners.push(addr);
+    }
+
+    function getUSDCShareOwners() public view returns ( address[] memory) {
+        return usdcShareOwners;
+    }
+
 }
